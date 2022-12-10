@@ -10,6 +10,7 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  Button,
 } from "@chakra-ui/react";
 import { NameState } from "../components/atom";
 
@@ -60,8 +61,8 @@ function Login() {
             w="80%"
             variant="flushed"
             marginTop="5%"></Input>
-          <Box
-            as="button"
+          <Button
+            disabled={Name === "" || Pw === ""}
             w="80%"
             marginTop="6%"
             h="40px"
@@ -72,11 +73,10 @@ function Login() {
             fontWeight="bold"
             backgroundColor="red.200"
             onClick={() => {
-              
               navigate("/main");
             }}>
             Login
-          </Box>
+          </Button>
         </Box>
       </Box>
     </Box>

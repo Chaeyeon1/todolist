@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { Box, Flex, Spacer, Checkbox } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Checkbox, useToast } from "@chakra-ui/react";
 import {
   NameState,
   DoingState,
@@ -25,6 +25,8 @@ function List({ job, name }: todoProps) {
   let [Doing, setDoing] = useRecoilState(DoingState);
   let [Done, setDone] = useRecoilState(DoneState);
   let [Name, setName] = useRecoilState(NameState);
+
+  const toast = useToast();
 
   const ClickList = async (id: number) => {
     if (checked === false) {
@@ -59,10 +61,18 @@ function List({ job, name }: todoProps) {
             ...oldTodoList,
             Todo.filter((back) => back.id === id)[0],
           ]);
-          setTodo(Todo.filter((back) => back.id !== id)); // Todo에서는 없애줌
+          setTodo((todos) => todos.filter((back) => back.id !== id)); // Todo에서는 없애줌
           setchecked(!checked);
         } else {
-          alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+          // alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+          toast({
+            title: "Owner 에러",
+            description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+            position: "bottom-right",
+          });
         }
       } else if (name === "Doing") {
         // 만약 카드가 Doing 카드라면
@@ -73,10 +83,17 @@ function List({ job, name }: todoProps) {
             ...oldTodoList,
             Doing.filter((back) => back.id === id)[0],
           ]);
-          setDoing(Doing.filter((back) => back.id !== id));
+          setDoing((doing) => doing.filter((back) => back.id !== id));
           setchecked(!checked);
         } else {
-          alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+          toast({
+            title: "Owner 에러",
+            description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+            position: "bottom-right",
+          });
         }
       }
     }
@@ -89,9 +106,16 @@ function List({ job, name }: todoProps) {
           ...oldTodoList,
           Done.filter((back) => back.id === id)[0],
         ]);
-        setDone(Done.filter((back) => back.id !== id));
+        setDone((done) => done.filter((back) => back.id !== id));
       } else {
-        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+        toast({
+          title: "Owner 에러",
+          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       }
     } else if (name === "Doing") {
       if (job.owner === Name) {
@@ -99,18 +123,40 @@ function List({ job, name }: todoProps) {
           ...oldTodoList,
           Doing.filter((back) => back.id === id)[0],
         ]);
-        setDoing(Doing.filter((back) => back.id !== id));
+        setDoing((doing) => doing.filter((back) => back.id !== id));
       } else {
-        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+        toast({
+          title: "Owner 에러",
+          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       }
     } else if (name === "Todo") {
       if (job.owner === Name) {
-        alert("다시 돌아갈 수 없습니다.");
+        // alert("다시 돌아갈 수 없습니다.");
+        toast({
+          title: "Backlog 에러",
+          description: "한 번 꺼낸 Todo는 다시 Backlog로 이동할 수 없습니다.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       } else {
-        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+        toast({
+          title: "Owner 에러",
+          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       }
     } else {
-      setBacklog(Backlog.filter((back) => back.id !== id));
+      setBacklog((backlog) => backlog.filter((back) => back.id !== id));
     }
   };
 
@@ -138,7 +184,6 @@ function List({ job, name }: todoProps) {
         w="15%"
         h="60px"
         paddingBottom="1%"
-        // backgroundColor="rgba(255,255,255,0)"
         marginRight="1%"
         onClick={() => delClick(job.id)}>
         ❌
@@ -147,4 +192,4 @@ function List({ job, name }: todoProps) {
   );
 }
 
-export default List;
+export default React.memo(List);
