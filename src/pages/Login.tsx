@@ -72,6 +72,7 @@ function Login() {
             fontWeight="bold"
             backgroundColor="red.200"
             onClick={() => {
+              
               navigate("/main");
             }}>
             Login

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { Box, Flex, Spacer, Checkbox } from "@chakra-ui/react";
 import {
   NameState,
@@ -34,108 +34,88 @@ function List({ job, name }: todoProps) {
         owner: "",
       };
       if (name === "Backlog") {
+        // 만약에 카드가 Backlog 카드라면
         setBacklog((backlog) => {
-          let newBacklog = backlog.map((back) =>
-            back.id === id ? { ...back, owner: Name } : back
+          let newBacklog = backlog.map(
+            (back) => (back.id === id ? { ...back, owner: Name } : back)
+            // Backlog를 클릭했을 때 그 소유주로 이름을 바꿔줌
           );
 
           newTodo = newBacklog.filter((back) => back.id === id)[0];
-          console.log(newTodo);
+          // Todo 카드에 넣기 위해서 내가 클릭한 아이디의 리스트를 newTodo에 저장
           newBacklog = newBacklog.filter((back) => back.id !== id);
+          // Backlog 카드에서는 지우기 위해서 Backlog를 이렇게 저장
           return newBacklog;
         });
         setTodo((oldTodoList) => [...oldTodoList, newTodo]);
+        // Todo 카드에 위에서 클릭한 거 저장한 변수로 setTodo 해줌
+        setchecked(!checked);
       } else if (name === "Todo") {
-        const af = Todo.filter((back) => back.id === id)[0];
-
-        console.log(af);
-        console.log(Name);
-        // if (job.owner === Name) {
-        setDoing((oldTodoList) => [
-          ...oldTodoList,
-          Todo.filter((back) => back.id === id)[0],
-        ]);
-        setTodo(Todo.filter((back) => back.id !== id));
-        // } else {
-        //   alert("사용자가 다릅니다.");
-        // }
+        // 만약에 카드가 Todo 카드라면
+        if (job.owner === Name) {
+          // 할 일의 owner와 자신의 이름이 같은지 판별
+          setDoing((oldTodoList) => [
+            // 같다면 Todo에서 클릭한 리스트를 Doing 카드에 저장
+            ...oldTodoList,
+            Todo.filter((back) => back.id === id)[0],
+          ]);
+          setTodo(Todo.filter((back) => back.id !== id)); // Todo에서는 없애줌
+          setchecked(!checked);
+        } else {
+          alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+        }
       } else if (name === "Doing") {
-        setDone((oldTodoList) => [
-          ...oldTodoList,
-          Doing.filter((back) => back.id === id)[0],
-        ]);
-        setDoing(Doing.filter((back) => back.id !== id));
+        // 만약 카드가 Doing 카드라면
+        if (job.owner === Name) {
+          // 할 일의 owner와 자신의 이름이 같은지 판별
+
+          setDone((oldTodoList) => [
+            ...oldTodoList,
+            Doing.filter((back) => back.id === id)[0],
+          ]);
+          setDoing(Doing.filter((back) => back.id !== id));
+          setchecked(!checked);
+        } else {
+          alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+        }
       }
     }
-    setchecked(!checked);
-
-    // console.log(newBacklog);
-
-    // });
-
-    // setBacklog((backlog) => {
-    //   const Backlog = backlog.map((back) =>
-    //     back.id === id ? { ...back, owner: Name } : back
-    //   );
-
-    //   console.log(Backlog);
-    //   return Backlog;
-    // });
-
-    // if (checked === false) {
-    //   if (name === "Backlog") {
-    //     setTodo((oldTodoList) => [
-    //       ...oldTodoList,
-    //       Backlog.filter((back) => back.id === id)[0],
-    //     ]);
-    //     setBacklog(Backlog.filter((back) => back.id !== id));
-    //   } else if (name === "Todo") {
-    //     const af = Todo.filter((back) => back.id === id)[0];
-
-    //     console.log(af);
-    //     console.log(Name);
-    //     // if (job.owner === Name) {
-    //     setDoing((oldTodoList) => [
-    //       ...oldTodoList,
-    //       Todo.filter((back) => back.id === id)[0],
-    //     ]);
-    //     setTodo(Todo.filter((back) => back.id !== id));
-    //     // } else {
-    //     //   alert("사용자가 다릅니다.");
-    //     // }
-    //   } else if (name === "Doing") {
-    //     setDone((oldTodoList) => [
-    //       ...oldTodoList,
-    //       Doing.filter((back) => back.id === id)[0],
-    //     ]);
-    //     setDoing(Doing.filter((back) => back.id !== id));
-    //   }
-    // }
-    // setchecked(!checked);
   };
 
   const delClick = (id: number) => {
     if (name === "Done") {
-      setDoing((oldTodoList) => [
-        ...oldTodoList,
-        Done.filter((back) => back.id === id)[0],
-      ]);
-      setDone(Done.filter((back) => back.id !== id));
+      if (job.owner === Name) {
+        setDoing((oldTodoList) => [
+          ...oldTodoList,
+          Done.filter((back) => back.id === id)[0],
+        ]);
+        setDone(Done.filter((back) => back.id !== id));
+      } else {
+        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+      }
     } else if (name === "Doing") {
-      setTodo((oldTodoList) => [
-        ...oldTodoList,
-        Doing.filter((back) => back.id === id)[0],
-      ]);
-      setDoing(Doing.filter((back) => back.id !== id));
+      if (job.owner === Name) {
+        setTodo((oldTodoList) => [
+          ...oldTodoList,
+          Doing.filter((back) => back.id === id)[0],
+        ]);
+        setDoing(Doing.filter((back) => back.id !== id));
+      } else {
+        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+      }
     } else if (name === "Todo") {
-      alert("다시 돌아갈 수 없습니다.");
+      if (job.owner === Name) {
+        alert("다시 돌아갈 수 없습니다.");
+      } else {
+        alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
+      }
     } else {
-      setBacklog(Done.filter((back) => back.id !== id));
+      setBacklog(Backlog.filter((back) => back.id !== id));
     }
   };
 
   return (
-    <Flex>
+    <Flex _hover={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
       <Checkbox
         colorScheme="blackAlpha"
         marginLeft="4%"

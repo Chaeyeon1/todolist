@@ -33,17 +33,69 @@ export const BacklogState = atom<attr>({
       title: "씻기",
       owner: "",
     },
+    {
+      id: 4,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 5,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 6,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 7,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 8,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 9,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 10,
+      title: "씻기",
+      owner: "",
+    },
+    {
+      id: 11,
+      title: "씻기",
+      owner: "",
+    },
   ],
 });
 
 export const TodoState = atom<attr>({
   key: "TodoState",
-  default: [],
+  default: [
+    {
+      id: 13,
+      title: "todoDefault",
+      owner: "chaeyeon",
+    },
+  ],
 });
 
 export const DoingState = atom<attr>({
   key: "DoingState",
-  default: [],
+  default: [
+    {
+      id: 17,
+      title: "DoingDefault",
+      owner: "chaeyeon",
+    },
+  ],
 });
 
 export const DoneState = atom<attr>({

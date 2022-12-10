@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
+
 import List from "../List";
 
 import {
@@ -9,15 +10,26 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
-// type todo = ;
 interface attr {
   name: string;
   todos: { id: number; title: string; owner: string }[];
 }
 
 function Card({ name, todos }: attr) {
+  const [Text, setText] = useState("");
+  const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setText(value);
+  };
+  const filtered = todos.filter((itemList) => {
+    return itemList.title.toUpperCase().includes(Text.toUpperCase());
+  });
+  const checkClick = () => {};
+
   return (
     <Fragment>
       <Box
@@ -42,22 +54,15 @@ function Card({ name, todos }: attr) {
           <Input
             marginLeft="1%"
             marginTop="1%"
-            w="88%"
+            w="98%"
             type="text"
             focusBorderColor="white"
-          />
-          <Box
-            bg="black"
-            as="button"
-            w="10%"
-            border="none"
-            backgroundColor="rgba(255,255,255,0)">
-            🗸
-          </Box>
+            value={Text}
+            onChange={TextHandler}></Input>
         </InputGroup>
       </Flex>
       <Box overflow="scroll" h="80%">
-        {todos.map((job) => (
+        {filtered.map((job) => (
           <List key={job.id} job={job} name={name} />
         ))}
       </Box>
