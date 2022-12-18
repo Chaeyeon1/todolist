@@ -7,7 +7,7 @@ import {
   BacklogState,
   TodoState,
   DoneState,
-} from "../components/atom";
+} from "./atom";
 
 interface todoProps {
   name: string;

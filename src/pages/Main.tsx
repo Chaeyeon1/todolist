@@ -12,8 +12,6 @@ import {
   DoneState,
 } from "../components/atom";
 
-type todo = { id: number; title: string; owner: string };
-
 function Main() {
   let [Name, setName] = useRecoilState<string>(NameState);
   let [Backlog, setBacklog] = useRecoilState(BacklogState);

@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { postList } from "./card/back";
 
 const { persistAtom } = recoilPersist();
 
@@ -17,63 +18,154 @@ type attr = {
 
 export const BacklogState = atom<attr>({
   key: "BacklogState",
-  default: [
-    {
-      id: 1,
-      title: "공부하기",
-      owner: "",
-    },
-    {
-      id: 2,
-      title: "양치하기",
-      owner: "",
-    },
-    {
-      id: 3,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 4,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 5,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 6,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 7,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 8,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 9,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 10,
-      title: "씻기",
-      owner: "",
-    },
-    {
-      id: 11,
-      title: "씻기",
-      owner: "",
-    },
-  ],
+  default: postList(),
+  // default: [
+  //   {
+  //     id: 1,
+  //     title: "todoDefault",
+  //     owner: "chaeyeon",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "todoDefaault",
+  //     owner: "chaeyeona",
+  //   },
+  // ],
 });
 
 export const TodoState = atom<attr>({
