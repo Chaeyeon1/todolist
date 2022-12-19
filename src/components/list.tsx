@@ -68,7 +68,7 @@ function List({ job, name }: todoProps) {
           // alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
           toast({
             title: "Owner 에러",
-            description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+            description: `${job.owner}님의 소유 todo입니다.`,
             status: "error",
             duration: 2000,
             isClosable: true,
@@ -89,7 +89,7 @@ function List({ job, name }: todoProps) {
         } else {
           toast({
             title: "Owner 에러",
-            description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+            description: `${job.owner}님의 소유 todo입니다.`,
             status: "error",
             duration: 2000,
             isClosable: true,
@@ -100,7 +100,9 @@ function List({ job, name }: todoProps) {
         setchecked(!checked);
       }
     } else {
-      setchecked(!checked);
+      if (name !== "Backlog") {
+        setchecked(!checked);
+      }
     }
   };
 
@@ -115,7 +117,7 @@ function List({ job, name }: todoProps) {
       } else {
         toast({
           title: "Owner 에러",
-          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          description: `${job.owner}님의 소유 todo입니다.`,
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -132,7 +134,7 @@ function List({ job, name }: todoProps) {
       } else {
         toast({
           title: "Owner 에러",
-          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          description: `${job.owner}님의 소유 todo입니다.`,
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -153,7 +155,7 @@ function List({ job, name }: todoProps) {
       } else {
         toast({
           title: "Owner 에러",
-          description: "사용자의 이름과 todo의 Owner가 일치하지 않습니다.",
+          description: `${job.owner}님의 소유 todo입니다.`,
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -166,7 +168,7 @@ function List({ job, name }: todoProps) {
   };
 
   return (
-    <Flex _hover={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+    <Flex h="60px" _hover={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
       <Checkbox
         colorScheme="blackAlpha"
         marginLeft="4%"
@@ -178,21 +180,27 @@ function List({ job, name }: todoProps) {
         onChange={() => {
           ClickList(job.id);
         }}>
-        {job.title}
+        {name === "Backlog"
+          ? `${job.title}`
+          : `${job.title} / 소유자 : ${job.owner}`}
       </Checkbox>
       <Spacer />
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        as="button"
-        w="15%"
-        h="60px"
-        paddingBottom="1%"
-        marginRight="1%"
-        onClick={() => delClick(job.id)}>
-        ❌
-      </Box>
+      {name === "Backlog" ? (
+        <div></div>
+      ) : (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          as="button"
+          w="15%"
+          h="60px"
+          paddingBottom="1%"
+          marginRight="1%"
+          onClick={() => delClick(job.id)}>
+          ❌
+        </Box>
+      )}
     </Flex>
   );
 }

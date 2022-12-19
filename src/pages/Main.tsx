@@ -80,11 +80,21 @@ function Main() {
         height: "100vh",
       }}>
       <Box
+        w="95%"
+        h="30px"
+        textAlign="end"
+        paddingTop="10px"
+        fontSize="17px"
+        fontWeight="bold"
+        color="red.800">
+        {`현재 나의 이름 : ${Name}`}
+      </Box>
+      <Box
         fontSize="60"
         textAlign="center"
         w="100%"
-        h="130px"
-        padding="20px"
+        h="110px"
+        paddingBottom="20px"
         color="red.600">
         Todo List
       </Box>
