@@ -37,6 +37,7 @@ function List({ job, name }: todoProps) {
       };
       if (name === "Backlog") {
         // 만약에 카드가 Backlog 카드라면
+
         setBacklog((backlog) => {
           let newBacklog = backlog.map(
             (back) => (back.id === id ? { ...back, owner: Name } : back)
@@ -62,7 +63,7 @@ function List({ job, name }: todoProps) {
             Todo.filter((back) => back.id === id)[0],
           ]);
           setTodo((todos) => todos.filter((back) => back.id !== id)); // Todo에서는 없애줌
-          setchecked(!checked);
+          // setchecked(!checked);
         } else {
           // alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
           toast({
@@ -84,7 +85,7 @@ function List({ job, name }: todoProps) {
             Doing.filter((back) => back.id === id)[0],
           ]);
           setDoing((doing) => doing.filter((back) => back.id !== id));
-          setchecked(!checked);
+          // setchecked(!checked);
         } else {
           toast({
             title: "Owner 에러",
@@ -95,7 +96,11 @@ function List({ job, name }: todoProps) {
             position: "bottom-right",
           });
         }
+      } else {
+        setchecked(!checked);
       }
+    } else {
+      setchecked(!checked);
     }
   };
 
