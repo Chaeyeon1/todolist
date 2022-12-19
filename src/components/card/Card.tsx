@@ -102,7 +102,7 @@ interface attr {
 
 const Card = ({ name, todos }: attr) => {
   const [page, setPage] = useState<number>(11);
-  // let [Backlog, setBacklog] = useRecoilState(BacklogState);
+  const [Backlog, setBacklog] = useRecoilState(BacklogState);
   // useEffect(() => {
   //   setBacklog(firstList);
   // }, []);
@@ -148,15 +148,19 @@ const Card = ({ name, todos }: attr) => {
     };
   }, [handleScroll]);
 
-  // const [Text, setText] = useState("");
+  useEffect(() => {
+    setBacklog(posts);
+  }, [posts]);
 
-  // const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value } = e.target;
-  //   setText(value);
-  // };
-  // const filtered = todos.filter((itemList) => {
-  //   return itemList.title.toUpperCase().includes(Text.toUpperCase());
-  // });
+  const [Text, setText] = useState("");
+
+  const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setText(value);
+  };
+  const filtered = Backlog.filter((itemList) => {
+    return itemList.title.toUpperCase().includes(Text.toUpperCase());
+  });
 
   return (
     <Fragment>
@@ -185,14 +189,13 @@ const Card = ({ name, todos }: attr) => {
             w="98%"
             type="text"
             focusBorderColor="white"
-            // value={Text}
-            // onChange={TextHandler}
-          ></Input>
+            value={Text}
+            onChange={TextHandler}></Input>
         </InputGroup>
       </Flex>
       <Box overflow="scroll" h="80%">
-        {/* {filtered.map((job: todoType, idx: number) => ( */}
-        {posts.map((job: todoType, idx: number) => (
+        {filtered.map((job: todoType, idx: number) => (
+          /* {posts.map((job: todoType, idx: number) => ( */
           <List key={idx} job={job} name={name} />
           // <div key={idx}>{job.id}</div>
         ))}
