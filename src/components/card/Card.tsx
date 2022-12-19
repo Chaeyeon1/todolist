@@ -117,21 +117,12 @@ function Card({ name, todos }: attr) {
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
       // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
 
-      setBacklog(
-        Backlog.concat(
-          getPostList(page + 1),
-          getPostList(page + 2),
-          getPostList(page + 3),
-          getPostList(page + 4),
-          getPostList(page + 5)
-        )
-      );
+      setBacklog(Backlog.concat(getPostList(page + 1)));
 
       // setPosts(posts.concat(getPostList(page + 1)));
       // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
 
-      setPage((prevPage: number) => prevPage + 5);
-      console.log(page);
+      setPage((prevPage: number) => prevPage + 1);
       console.log(Backlog);
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
     }
