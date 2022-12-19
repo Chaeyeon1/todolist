@@ -74,7 +74,7 @@
 
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 import List from "../List";
-import { getPostList, firstList, todoType } from "./back";
+import { getPostList, todoType } from "./back";
 
 import {
   Grid,
@@ -86,7 +86,6 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   NameState,
   DoingState,
@@ -101,15 +100,9 @@ interface attr {
   todos: { id: number; title: string; owner: string }[];
 }
 
-type todo = { id: number; title: string; owner: string };
-
 function Card({ name, todos }: attr) {
   const [page, setPage] = useState<number>(11);
-  // const [posts, setPosts] = useState<todoType[]>(firstList());
   let [Backlog, setBacklog] = useRecoilState(BacklogState);
-  useEffect(() => {
-    setBacklog(firstList());
-  }, []);
 
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
@@ -130,23 +123,19 @@ function Card({ name, todos }: attr) {
           getPostList(page + 2),
           getPostList(page + 3),
           getPostList(page + 4),
-          getPostList(page + 5),
-          getPostList(page + 6),
-          getPostList(page + 7),
-          getPostList(page + 8),
-          getPostList(page + 9),
-          getPostList(page + 10),
-          getPostList(page + 11)
+          getPostList(page + 5)
         )
       );
 
       // setPosts(posts.concat(getPostList(page + 1)));
       // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
 
-      setPage((prevPage: number) => prevPage + 11);
+      setPage((prevPage: number) => prevPage + 5);
+      console.log(page);
+      console.log(Backlog);
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
     }
-  }, [page, Backlog]);
+  }, [page]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
@@ -154,7 +143,6 @@ function Card({ name, todos }: attr) {
     return () => {
       window.removeEventListener("scroll", handleScroll, true);
       // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거합니다.
-      console.log(Backlog);
     };
   }, [handleScroll]);
 
@@ -200,8 +188,8 @@ function Card({ name, todos }: attr) {
         </InputGroup>
       </Flex>
       <Box overflow="scroll" h="80%">
-        {filtered.map((job: todo) => (
-          <List key={job.id} job={job} name={name} />
+        {filtered.map((job: todoType, idx: number) => (
+          <List key={idx} job={job} name={name} />
           // <div key={idx}>{job.id}</div>
         ))}
       </Box>
