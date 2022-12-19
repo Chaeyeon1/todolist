@@ -74,7 +74,7 @@
 
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 import List from "../List";
-import { getPostList, todoType } from "./back";
+import { getPostList, todoType, firstList } from "./back";
 
 import {
   Grid,
@@ -102,7 +102,11 @@ interface attr {
 
 function Card({ name, todos }: attr) {
   const [page, setPage] = useState<number>(11);
-  let [Backlog, setBacklog] = useRecoilState(BacklogState);
+  // let [Backlog, setBacklog] = useRecoilState(BacklogState);
+  // useEffect(() => {
+  //   setBacklog(firstList);
+  // }, []);
+  const [Backlog, setBacklog] = useState<todoType[]>(firstList());
 
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
@@ -117,16 +121,22 @@ function Card({ name, todos }: attr) {
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
       // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
 
-      setBacklog(Backlog.concat(getPostList(page + 1)));
+      setBacklog((Backlog) =>
+        Backlog.concat(
+          getPostList(page + 1),
+          getPostList(page + 2),
+          getPostList(page + 3)
+        )
+      );
 
       // setPosts(posts.concat(getPostList(page + 1)));
       // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
 
-      setPage((prevPage: number) => prevPage + 1);
-      console.log(Backlog);
+      setPage((prevPage: number) => prevPage + 3);
+      // console.log(Backlog);
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
     }
-  }, [page]);
+  }, [page, Backlog]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
@@ -135,17 +145,18 @@ function Card({ name, todos }: attr) {
       window.removeEventListener("scroll", handleScroll, true);
       // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거합니다.
     };
+    console.log(Backlog);
   }, [handleScroll]);
 
-  const [Text, setText] = useState("");
+  // const [Text, setText] = useState("");
 
-  const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setText(value);
-  };
-  const filtered = todos.filter((itemList) => {
-    return itemList.title.toUpperCase().includes(Text.toUpperCase());
-  });
+  // const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = e.target;
+  //   setText(value);
+  // };
+  // const filtered = todos.filter((itemList) => {
+  //   return itemList.title.toUpperCase().includes(Text.toUpperCase());
+  // });
 
   return (
     <Fragment>
@@ -174,12 +185,14 @@ function Card({ name, todos }: attr) {
             w="98%"
             type="text"
             focusBorderColor="white"
-            value={Text}
-            onChange={TextHandler}></Input>
+            // value={Text}
+            // onChange={TextHandler}
+          ></Input>
         </InputGroup>
       </Flex>
       <Box overflow="scroll" h="80%">
-        {filtered.map((job: todoType, idx: number) => (
+        {/* {filtered.map((job: todoType, idx: number) => ( */}
+        {Backlog.map((job: todoType, idx: number) => (
           <List key={idx} job={job} name={name} />
           // <div key={idx}>{job.id}</div>
         ))}

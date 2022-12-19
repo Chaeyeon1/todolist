@@ -45,7 +45,7 @@ function List({ job, name }: todoProps) {
 
           newTodo = newBacklog.filter((back) => back.id === id)[0];
           // Todo 카드에 넣기 위해서 내가 클릭한 아이디의 리스트를 newTodo에 저장
-          newBacklog = newBacklog.filter((back) => back.id !== id);
+          // newBacklog = newBacklog.filter((back) => back.id !== id);
           // Backlog 카드에서는 지우기 위해서 Backlog를 이렇게 저장
           return newBacklog;
         });
