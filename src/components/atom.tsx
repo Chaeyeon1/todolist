@@ -18,13 +18,7 @@ type attr = {
 
 export const BacklogState = atom<attr>({
   key: "BacklogState",
-  default: [
-    {
-      id: 13,
-      title: "todoDefault",
-      owner: "chaeyeon",
-    },
-  ],
+  default: [],
 });
 
 export const TodoState = atom<attr>({
