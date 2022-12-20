@@ -11,7 +11,7 @@ export const firstList = (): todoType[] => {
 
 export const postList = () => {
   const array = [];
-  for (let i = 0; i <= 50; i++) {
+  for (let i = 0; i <= 10000; i++) {
     array.push({
       id: i,
       title: `할일 ${i}`,

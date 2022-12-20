@@ -143,8 +143,8 @@ const Card = ({ name, todos }: attr) => {
             onChange={TextHandler}></Input>
         </InputGroup>
       </Flex>
-      {/* <Box overflowY="scroll" h="80%"> */}
-      <Box overflowY="scroll" h="400px">
+      <Box overflowY="scroll" h="55vh">
+        {/* <Box overflowY="scroll" h="400px"> */}
         {filtered.map((job: todoType, idx: number) => (
           /* {posts.map((job: todoType, idx: number) => ( */
           <List key={idx} job={job} name={name} />
