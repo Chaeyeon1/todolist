@@ -1,6 +1,5 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { postList, firstList } from "./card/back";
 
 const { persistAtom } = recoilPersist();
 
@@ -25,7 +24,7 @@ export const TodoState = atom<attr>({
   key: "TodoState",
   default: [
     {
-      id: 13,
+      id: 130,
       title: "todoDefault",
       owner: "chaeyeon",
     },
@@ -36,7 +35,7 @@ export const DoingState = atom<attr>({
   key: "DoingState",
   default: [
     {
-      id: 17,
+      id: 170,
       title: "DoingDefault",
       owner: "chaeyeon",
     },

@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState, useCallback } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect, useState, useCallback } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Card from "../components/card/Card";
+import { throttle } from "lodash";
 
 import { Grid, GridItem, Box } from "@chakra-ui/react";
-import List from "../components/List";
 import {
   NameState,
   DoingState,
@@ -14,17 +14,15 @@ import {
 import { getPostList, todoType, firstList } from "../components/card/back";
 
 function Main() {
-  let [Name, setName] = useRecoilState<string>(NameState);
+  let Name = useRecoilValue(NameState);
   let [Backlog, setBacklog] = useRecoilState(BacklogState);
-  let [Doing, setDoing] = useRecoilState(DoingState);
-  let [Todo, setTodo] = useRecoilState(TodoState);
-  let [Done, setDone] = useRecoilState(DoneState);
+  let Doing = useRecoilValue(DoingState);
+  let Todo = useRecoilValue(TodoState);
+  let Done = useRecoilValue(DoneState);
 
   const [page, setPage] = useState<number>(11);
-  // useEffect(() => {
-  //   setBacklog(firstList);
-  // }, []);
   const [posts, setPosts] = useState<todoType[]>(firstList());
+  let count = 0;
 
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
@@ -45,16 +43,17 @@ function Main() {
     };
 
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+      // throttle(() => {
       // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
       setPosts((posts) => posts.concat(getPostList(page + 1)));
 
-      // setPosts(posts.concat(getPostList(page + 1)));
       // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
 
       setPage((prevPage: number) => prevPage + 1);
-      // console.log(Backlog);
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
-      wait(0.7);
+      // wait(0.7);
+      // count++;
+      // }, 10);
     }
   }, [page, posts]);
 

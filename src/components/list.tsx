@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useRecoilState } from "recoil";
+import React, { useState } from "react";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { Box, Flex, Spacer, Checkbox, useToast } from "@chakra-ui/react";
 import {
   NameState,
@@ -20,11 +20,11 @@ interface todoProps {
 
 function List({ job, name }: todoProps) {
   const [checked, setchecked] = useState(false);
-  let [Backlog, setBacklog] = useRecoilState(BacklogState);
+  let setBacklog = useSetRecoilState(BacklogState);
   let [Todo, setTodo] = useRecoilState(TodoState);
   let [Doing, setDoing] = useRecoilState(DoingState);
   let [Done, setDone] = useRecoilState(DoneState);
-  let [Name, setName] = useRecoilState(NameState);
+  let Name = useRecoilValue(NameState);
 
   const toast = useToast();
 
@@ -46,7 +46,6 @@ function List({ job, name }: todoProps) {
 
           newTodo = newBacklog.filter((back) => back.id === id)[0];
           // Todo 카드에 넣기 위해서 내가 클릭한 아이디의 리스트를 newTodo에 저장
-          // newBacklog = newBacklog.filter((back) => back.id !== id);
           // Backlog 카드에서는 지우기 위해서 Backlog를 이렇게 저장
           return newBacklog;
         });
@@ -63,9 +62,7 @@ function List({ job, name }: todoProps) {
             Todo.filter((back) => back.id === id)[0],
           ]);
           setTodo((todos) => todos.filter((back) => back.id !== id)); // Todo에서는 없애줌
-          // setchecked(!checked);
         } else {
-          // alert("사용자가 다릅니다."); // 사용자가 다르다면 다르다는 문구 출력
           toast({
             title: "Owner 에러",
             description: `${job.owner}님의 소유 todo입니다.`,
@@ -143,7 +140,6 @@ function List({ job, name }: todoProps) {
       }
     } else if (name === "Todo") {
       if (job.owner === Name) {
-        // alert("다시 돌아갈 수 없습니다.");
         toast({
           title: "Backlog 에러",
           description: "한 번 꺼낸 Todo는 다시 Backlog로 이동할 수 없습니다.",
