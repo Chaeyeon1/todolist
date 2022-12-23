@@ -51,8 +51,6 @@ function Main() {
 
           setPage((prevPage: number) => prevPage + 1);
           // 페이지 state 변수의 값도 1씩 늘려줍니다.
-          // wait(0.7);
-          // count++;
         }
       }, 100000),
     [page, posts]
