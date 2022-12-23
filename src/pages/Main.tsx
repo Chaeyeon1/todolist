@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Card from "../components/card/Card";
 import { throttle } from "lodash";
@@ -24,38 +24,73 @@ function Main() {
   const [posts, setPosts] = useState<todoType[]>(firstList());
   let count = 0;
 
-  const handleScroll = useCallback((): void => {
-    const { innerHeight } = window;
-    // 브라우저창 내용의 크기 (스크롤을 포함하지 않음)
+  const handleScroll = useMemo(
+    () =>
+      throttle(() => {
+        const { innerHeight } = window;
+        // 브라우저창 내용의 크기 (스크롤을 포함하지 않음)
 
-    const { scrollHeight } = document.body;
-    // 브라우저 총 내용의 크기 (스크롤을 포함한다)
+        const { scrollHeight } = document.body;
+        // 브라우저 총 내용의 크기 (스크롤을 포함한다)
 
-    const { scrollTop } = document.documentElement;
-    // 현재 스크롤바의
+        const { scrollTop } = document.documentElement;
+        // 현재 스크롤바의
 
-    const wait = (sec: number) => {
-      let start = Date.now(),
-        now = start;
-      while (now - start < sec * 1000) {
-        now = Date.now();
-      }
-    };
+        const wait = (sec: number) => {
+          let start = Date.now(),
+            now = start;
+          while (now - start < sec * 1000) {
+            now = Date.now();
+          }
+        };
 
-    if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
-      // throttle(() => {
-      // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
-      setPosts((posts) => posts.concat(getPostList(page + 1)));
+        if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+          // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
+          setPosts((posts) => posts.concat(getPostList(page + 1)));
 
-      // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
+          // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
 
-      setPage((prevPage: number) => prevPage + 1);
-      // 페이지 state 변수의 값도 1씩 늘려줍니다.
-      // wait(0.7);
-      // count++;
-      // }, 10);
-    }
-  }, [page, posts]);
+          setPage((prevPage: number) => prevPage + 1);
+          // 페이지 state 변수의 값도 1씩 늘려줍니다.
+          // wait(0.7);
+          // count++;
+        }
+      }, 100000),
+    [page, posts]
+  );
+
+  // const handleScroll = useCallback((): void => {
+  //   throttle(() => {
+  //     const { innerHeight } = window;
+  //     // 브라우저창 내용의 크기 (스크롤을 포함하지 않음)
+
+  //     const { scrollHeight } = document.body;
+  //     // 브라우저 총 내용의 크기 (스크롤을 포함한다)
+
+  //     const { scrollTop } = document.documentElement;
+  //     // 현재 스크롤바의
+
+  //     const wait = (sec: number) => {
+  //       let start = Date.now(),
+  //         now = start;
+  //       while (now - start < sec * 1000) {
+  //         now = Date.now();
+  //       }
+  //     };
+
+  //     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+  //       // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
+  //       setPosts((posts) => posts.concat(getPostList(page + 1)));
+
+  //       // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
+
+  //       setPage((prevPage: number) => prevPage + 1);
+  //       // 페이지 state 변수의 값도 1씩 늘려줍니다.
+  //       // wait(0.7);
+  //       // count++;
+  //     }
+  //   }, 10);
+  // }, [page, posts]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
