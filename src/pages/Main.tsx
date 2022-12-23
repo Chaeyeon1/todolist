@@ -22,7 +22,6 @@ function Main() {
 
   const [page, setPage] = useState<number>(11);
   const [posts, setPosts] = useState<todoType[]>(firstList());
-  let count = 0;
 
   const handleScroll = useMemo(
     () =>
