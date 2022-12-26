@@ -35,13 +35,13 @@ function Main() {
         const { scrollTop } = document.documentElement;
         // 현재 스크롤바의
 
-        const wait = (sec: number) => {
-          let start = Date.now(),
-            now = start;
-          while (now - start < sec * 1000) {
-            now = Date.now();
-          }
-        };
+        // const wait = (sec: number) => {
+        //   let start = Date.now(),
+        //     now = start;
+        //   while (now - start < sec * 1000) {
+        //     now = Date.now();
+        //   }
+        // };
 
         if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
           // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
