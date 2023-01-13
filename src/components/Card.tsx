@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
-import List from "../List";
-import { todoType } from "./back";
+import { useDispatch, useSelector } from "react-redux";
+import List from "./List";
 
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
+import { selectTodo, changeTodo } from "../store/todoSlice";
 
 interface attr {
   name: string;
@@ -16,16 +17,8 @@ interface attr {
 }
 
 const Card = ({ name, todos }: attr) => {
-  const [Text, setText] = useState("");
-
-  const TextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setText(value);
-  };
-  const filtered = todos.filter((itemList) => {
-    return itemList.title.toUpperCase().includes(Text.toUpperCase());
-  });
-
+  console.log(changeTodo);
+  console.log(todos[0]);
   return (
     <Fragment>
       <Box
@@ -35,7 +28,8 @@ const Card = ({ name, todos }: attr) => {
         justifyContent="center"
         alignItems="center"
         color="white"
-        fontSize="30px">
+        fontSize="30px"
+      >
         {name}
       </Box>
       <Flex h="10%">
@@ -44,7 +38,8 @@ const Card = ({ name, todos }: attr) => {
             pointerEvents="none"
             display="flex"
             alignItems="center"
-            paddingTop="2%">
+            paddingTop="2%"
+          >
             🔍
           </InputLeftElement>
           <Input
@@ -53,17 +48,19 @@ const Card = ({ name, todos }: attr) => {
             w="98%"
             type="text"
             focusBorderColor="white"
-            value={Text}
-            onChange={TextHandler}></Input>
+          ></Input>
         </InputGroup>
       </Flex>
       <Box overflowY="scroll" h="55vh">
-        {filtered.map((job: todoType, idx: number) => (
-          <List key={idx} job={job} name={name} />
-        ))}
+        <List name={name} job={todos[0]}></List>
       </Box>
     </Fragment>
   );
 };
+
+// <List
+// name={name}
+// job={job}
+// ></List>
 
 export default React.memo(Card);

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import {
   Grid,
   GridItem,
@@ -12,17 +11,22 @@ import {
   Spacer,
   Button,
 } from "@chakra-ui/react";
-import { NameState } from "../components/atom";
+import { useDispatch } from "react-redux";
+import { changeName } from "../store/nameSlice";
 
 function Login() {
-  const [Name, setName] = useRecoilState<string>(NameState);
+  const [Name, setName] = useState("");
   const [Pw, setPw] = useState<string>("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const NameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.currentTarget.value);
   };
+  useEffect(() => {
+    dispatch(changeName({ name: Name }));
+  }, [Name]);
 
   const PwChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPw(event.currentTarget.value);
@@ -35,14 +39,16 @@ function Login() {
       bg="blackAlpha.200"
       display="flex"
       justifyContent="center"
-      alignItems="center">
+      alignItems="center"
+    >
       <Box w="30%" h="50%" bg="white">
         <Box
           fontSize="30px"
           marginTop="15%"
           color="blackAlpha.900"
           display="flex"
-          justifyContent="center">
+          justifyContent="center"
+        >
           로그인
         </Box>
         <Box display="flex" flexDirection="column" alignItems="center">
@@ -52,7 +58,8 @@ function Login() {
             onChange={NameChangeHandler}
             w="80%"
             variant="flushed"
-            marginTop="5%"></Input>
+            marginTop="5%"
+          ></Input>
           <Input
             type="password"
             value={Pw}
@@ -60,7 +67,8 @@ function Login() {
             placeholder="비밀번호"
             w="80%"
             variant="flushed"
-            marginTop="5%"></Input>
+            marginTop="5%"
+          ></Input>
           <Button
             disabled={Name === "" || Pw === ""}
             w="80%"
@@ -74,7 +82,8 @@ function Login() {
             backgroundColor="red.200"
             onClick={() => {
               navigate("/main");
-            }}>
+            }}
+          >
             Login
           </Button>
         </Box>
